@@ -1,18 +1,14 @@
 import java.util.Scanner
 
-class GameOption(inputName: String) {
-  val name = inputName
+class GameOption(val name: String) {
   lateinit var canBeat: GameOption
 
   fun canBeat(gameOption: GameOption) {
-    this.canBeat = gameOption
+    canBeat = gameOption
   }
 }
 
-class Player(inputName: String) {
-  val name = inputName
-  var score = 0
-}
+class Player(val name: String, var score:Int = 0)
 
 fun main(args: Array<String>) {
   val player = Player("Player")
