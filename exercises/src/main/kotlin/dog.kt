@@ -11,12 +11,16 @@ fun main(args: Array<String>) {
 
     }
 }
+
 class Dog(
-    private val name:String,
-    private var weight:Int,
-    private val breed:String) {
+    private val name: String,
+    private val weight: Int,
+    private val breed: String
+
+) {
     fun whoAmI() {
         println("$name ist $weight kg schwer und ein $breed")
     }
-    fun bark() = (if (weight < 20) println("${hund.name} mach Yip!!") else println("${hund.name} mach Woof!!"))
+
+    fun bark() = if (weight < 20) println("$name mach Yip!!") else println("$name mach Woof!!")
 }
