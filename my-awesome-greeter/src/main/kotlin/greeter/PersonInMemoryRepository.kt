@@ -9,5 +9,9 @@ class PersonInMemoryRepository {
     }
     fun removePerson(personName: String) = persons.removeAt(persons.indexOfFirst { it.name == personName })
 
+    fun sortRepository() = persons.sortBy { it.name }
+
+    fun clearRepository() = persons.clear()
+
     fun getAllPersons(): List<Person> = persons
 }

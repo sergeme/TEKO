@@ -14,6 +14,8 @@ class GreeterView {
                 Commands:
                 add [name]
                 remove [name]
+                sort
+                clear
                 greet
             """.trimIndent())
     }
@@ -23,6 +25,8 @@ class GreeterView {
                 Commands:
                 add [name]
                 remove [name]
+                sort
+                clear
                 greet
             """.trimIndent())
         askForCommand()

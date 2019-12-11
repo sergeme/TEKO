@@ -3,10 +3,12 @@ package greeter
 class Greeter(private val greeterView: GreeterView) {
     private val personRepository = PersonInMemoryRepository()
 
-    val commands:Map<String, (String)->Unit> = mapOf(
+    val commands:Map<String, (String)->Any> = mapOf(
         "add" to ::addPerson,
         "remove" to ::removePerson,
-        "greet" to ::greet
+        "greet" to ::greet,
+        "sort" to ::sortPersons,
+        "clear" to :: clearPersons
     )
 
     fun execute(input: String) {
@@ -28,6 +30,16 @@ class Greeter(private val greeterView: GreeterView) {
 
     private fun removePerson(personName: String) {
         personRepository.removePerson(personName)
+        greeterView.amountOfPersonChanged(personRepository.getAllPersons())
+    }
+
+    private fun sortPersons(input: String) {
+        personRepository.sortRepository()
+        greeterView.amountOfPersonChanged(personRepository.getAllPersons())
+    }
+
+    private fun clearPersons(input: String) {
+        personRepository.clearRepository()
         greeterView.amountOfPersonChanged(personRepository.getAllPersons())
     }
 }
