@@ -3,7 +3,7 @@ package greeter
 class PersonController(val greeter: Greeter) {
 
     fun parse(command: String): Boolean {
-        if(greeter.commands.keys.contains(command.substringBefore(" "))) {
+        if(greeter.commands.contains() {
             greeter.execute(command)
             return true
         }
