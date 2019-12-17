@@ -5,5 +5,6 @@ fun main(args: Array<String>) {
     val personModel = Greeter(personView)
     val personController = PersonController(personModel)
     personView.setController(personController)
+    personView.setGreeter(personModel)
     personView.showInitialMenue()
 }

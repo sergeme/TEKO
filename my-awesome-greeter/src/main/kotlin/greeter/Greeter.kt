@@ -3,28 +3,26 @@ package greeter
 import kotlin.reflect.KFunction1
 import kotlin.system.exitProcess
 
-class Command(name: String, description: String, call: KFunction1<@ParameterName(name = "input") String, Unit>) {
-
-}
-
+class Command(val name: String, val description: String, val call: KFunction1<String, Unit>)
 
 class Greeter(private val greeterView: GreeterView) {
     private val personRepository = PersonInMemoryRepository()
 
     val commands:List<Command> = listOf(
-        Command("add", "[name]", ::addPerson),
-        Command("remove", "[name]", ::removePerson),
-        Command("greet", "", ::greet),
-        Command("sortPersons", "", ::sortPersons),
-        Command("clear", "", ::clearPersons),
-        Command("exit", "", ::exitApplication)
-            )
+        Command("add", "[name]", this::addPerson),
+        Command("remove", "[name]", this::removePerson),
+        Command("sort", "", this::sortPersons),
+        Command("clear", "", this::clearPersons),
+        Command("exit", "", this::exitApplication),
+        Command("greet", "", this::greet)
+    )
+    var functions = listOf<(uuid: String) -> Unit?>(
+        this::addPerson,
+        this::removePerson)
 
-
-    fun execute(input: String) {
-        val command:Command? = commands.find { it.equals(input.substringBefore(" ")) }
-        println(command)
-        //commands[commands.find { it.equals(input.substringBefore(" ")) }]?.invoke(input.substringAfter(" "))
+    fun execute(inputCommand: String, inputProperty: String) {
+        val command:Command? = commands.find { x -> x.name == inputCommand }
+        command?.call?.invoke(inputProperty)
     }
 
     private fun greet(input: String) {
@@ -35,8 +33,8 @@ class Greeter(private val greeterView: GreeterView) {
         }
         greeterView.showGreet(greetings)
     }
-    private fun addPerson(personName: String) {
-        personRepository.createPerson(personName)
+    private fun addPerson(input: String) {
+        personRepository.createPerson(input)
         greeterView.amountOfPersonChanged(personRepository.getAllPersons())
     }
 
