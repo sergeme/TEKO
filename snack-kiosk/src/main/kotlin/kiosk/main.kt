@@ -6,7 +6,6 @@ fun main(args: Array<String>) {
     val kiosk = Kiosk(kioskView, startAmount)
     val kioskController = SnackKioskController(kiosk)
     kioskView.setController(kioskController)
-    kioskView.setKiosk(kiosk)
     kioskView.listCommands(kiosk)
     kioskView.showInventory(kioskController.getInventory())
 }

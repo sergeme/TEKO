@@ -6,13 +6,8 @@ import kotlin.system.exitProcess
 class Kiosk(val kioskView: SnackKioskView, startAmount: Int = 0) {
     private val repository = ChocolateBarRepository()
     private val brands: List<String> = listOf("Snickers", "Mars")
-    val commands: List<Command> = listOf(
-        Command("buy", "[Brand] -> ie. buy Snickers", this::sell),
-        Command("restock", "[Amount Brand] -> ie. restock 10 Mars", this::refillStock),
-        Command("exit", "", this::exitApplication)
-    )
 
-    fun execute(inputCommand: String, inputProperty: String) {
+    fun execute(inputCommand: String, inputProperty: String, commands: List<Command>) {
         val command: Command? = commands.find { x -> x.name == inputCommand }
         command?.call?.invoke(inputProperty)
     }
@@ -23,6 +18,22 @@ class Kiosk(val kioskView: SnackKioskView, startAmount: Int = 0) {
         }
     }
 
+    fun saveToJSON() {
+
+    }
+
+    fun loadFromJSON() {
+
+    }
+
+    fun saveToXML() {
+
+    }
+
+    fun loadFromXML() {
+
+    }
+
     private fun fillinStock(input: String) {
         val amount: Int = input.substringBefore(" ").toInt()
         val chocolateBarName = input.substringAfter(" ")
@@ -31,7 +42,7 @@ class Kiosk(val kioskView: SnackKioskView, startAmount: Int = 0) {
         }
     }
 
-    private fun refillStock(input: String/*chocolateBarName:String, amount: Int*/) {
+    fun refillStock(input: String/*chocolateBarName:String, amount: Int*/) {
         if (input.contains(" ")) {
             val amount: Int = input.substringBefore(" ").toInt()
             println(amount)
@@ -45,7 +56,7 @@ class Kiosk(val kioskView: SnackKioskView, startAmount: Int = 0) {
         kioskView.inventoryChanged(getStock())
     }
 
-    private fun sell(input: String /*Inventory*/) {
+    fun sell(input: String /*Inventory*/) {
         kioskView.itemSold(repository.removeChocolateBar(input), input, getStock())
     }
 
@@ -53,10 +64,8 @@ class Kiosk(val kioskView: SnackKioskView, startAmount: Int = 0) {
         return repository.getChocolateBarInventory()
     }
 
-    private fun exitApplication(input: String) {
+    fun exitApplication(input: String) {
         exitProcess(1)
     }
 
 }
-
-open class Command(open val name: String, open val description: String, val call: KFunction1<String, Unit>)

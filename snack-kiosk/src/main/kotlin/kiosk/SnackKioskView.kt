@@ -4,18 +4,13 @@ import java.util.*
 
 class SnackKioskView {
     private lateinit var controller: SnackKioskController
-    private lateinit var kiosk: Kiosk
     fun setController(controller: SnackKioskController) {
         this.controller = controller
     }
 
-    fun setKiosk(kiosk: Kiosk) {
-        this.kiosk = kiosk
-    }
-
     fun listCommands(kiosk: Kiosk) {
         println("\nAvailable Commands:")
-        for (command in kiosk.commands) {
+        for (command in controller.commands) {
             print(command.name)
             if (command.description != "") {
                 print(" - ${command.description}")
