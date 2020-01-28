@@ -8,22 +8,18 @@ import kotlinx.serialization.*
 class ChocolateBarJSONRepository: ChocolateBarInterface {
     private val chocolateBarStock = mutableListOf<ChocolateBar>()
     private val filePath = "c:/temp/chocolateBar.json"
-    val json = Json(JsonConfiguration(prettyPrint = true))
+    private val json = Json(JsonConfiguration(prettyPrint = true))
     init {
         if(!File(filePath).exists()) {
             File(filePath).createNewFile()
-
             val data = json.stringify(ChocolateBar.serializer().list, chocolateBarStock)
             File(filePath).writeText(data)
-            println(data)
         }
         else {
-            val obj = json.parse(ChocolateBar.serializer().list, File(filePath).readText())
-            chocolateBarStock.addAll(obj)
+            chocolateBarStock.addAll(json.parse(ChocolateBar.serializer().list, File(filePath).readText()))
         }
-
     }
-    
+
     override fun createChocolateBar(name: String) {
         val newChocolateBar = ChocolateBar(name.toLowerCase().capitalize())
         chocolateBarStock.add(newChocolateBar)
@@ -36,7 +32,8 @@ class ChocolateBarJSONRepository: ChocolateBarInterface {
         val chocolateBarToRemove = chocolateBarStock.indexOfFirst { it.name.toLowerCase() == bar }
         if (chocolateBarToRemove != -1) {
             val soldChocolateBar: ChocolateBar = chocolateBarStock[chocolateBarToRemove]
-            chocolateBarStock.removeAt(chocolateBarToRemove)
+            //chocolateBarStock.removeAt(chocolateBarToRemove)
+            chocolateBarStock.remove(soldChocolateBar)
             val data = json.stringify(ChocolateBar.serializer().list, chocolateBarStock)
             File(filePath).writeText(data)
             return true
