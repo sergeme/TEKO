@@ -1,13 +1,13 @@
 package kiosk
 
-class ChocolateBarRepository {
+class ChocolateBarRepository: ChocolateBarInterface {
     private val chocolateBarStock = mutableListOf<ChocolateBar>()
-    fun createChocolateBar(name: String) {
+    override fun createChocolateBar(name: String) {
         val newChocolateBar = ChocolateBar(name.toLowerCase().capitalize())
         chocolateBarStock.add(newChocolateBar)
     }
 
-    fun removeChocolateBar(input: String): Boolean {
+    override fun removeChocolateBar(input: String): Boolean {
         val bar = input.toLowerCase()
         val chocolateBarToRemove = chocolateBarStock.indexOfFirst { it.name.toLowerCase() == bar }
         if (chocolateBarToRemove != -1) {
@@ -18,7 +18,7 @@ class ChocolateBarRepository {
         return false
     }
 
-    fun getChocolateBarInventory(): List<Inventory> {
+    override fun getChocolateBarInventory(): List<Inventory> {
         val inventory: MutableList<Inventory> = mutableListOf<Inventory>()
         val types = chocolateBarStock.distinct()
         for (type in types) {
@@ -27,5 +27,13 @@ class ChocolateBarRepository {
         inventory.sortBy { it.name }
 
         return inventory
+    }
+
+    override fun initialize() {
+        for (brand in arrayOf("Mars", "Snickers")) {
+            for( i in 1..10) {
+                this.createChocolateBar(brand)
+            }
+        }
     }
 }

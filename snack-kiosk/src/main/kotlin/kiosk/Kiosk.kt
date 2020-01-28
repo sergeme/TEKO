@@ -3,43 +3,16 @@ package kiosk
 import kotlin.reflect.KFunction1
 import kotlin.system.exitProcess
 
-class Kiosk(val kioskView: SnackKioskView, startAmount: Int = 0) {
-    private val repository = ChocolateBarRepository()
-    private val brands: List<String> = listOf("Snickers", "Mars")
+class Kiosk(val kioskView: SnackKioskView) {
+    private lateinit var repository: ChocolateBarInterface
+    fun setRepository(repository: ChocolateBarInterface) {
+        this.repository = repository
+        this.repository.initialize()
+    }
 
     fun execute(inputCommand: String, inputProperty: String, commands: List<Command>) {
         val command: Command? = commands.find { x -> x.name == inputCommand }
         command?.call?.invoke(inputProperty)
-    }
-
-    init {
-        for (brand in brands) {
-            fillinStock("$startAmount $brand")
-        }
-    }
-
-    fun saveToJSON() {
-
-    }
-
-    fun loadFromJSON() {
-
-    }
-
-    fun saveToXML() {
-
-    }
-
-    fun loadFromXML() {
-
-    }
-
-    private fun fillinStock(input: String) {
-        val amount: Int = input.substringBefore(" ").toInt()
-        val chocolateBarName = input.substringAfter(" ")
-        for (i in 1..amount) {
-            repository.createChocolateBar(chocolateBarName)
-        }
     }
 
     fun refillStock(input: String/*chocolateBarName:String, amount: Int*/) {
